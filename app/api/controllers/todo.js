@@ -11,6 +11,7 @@ module.exports = {
 
         // create todo item (completion will always start at default value false)
         todoModel.create({
+            ownerId: req.body.userId,
             task: req.body.task,
             category: req.body.category,
             description: req.body.description || "n/a",
@@ -86,7 +87,26 @@ module.exports = {
     },
 
     // update a todo item with specific todoId
-    update: (req, res, next) => {
+    update: async (req, res, next) => {
+        var flag = false;
+        const checkId = todoModel.findById(req.params.todoId, async (err, todo) => {
+            if (err) {
+                next(err);
+                flag = true;
+            }
+            if (todo.ownerId != req.body.userId) {
+                console.log('wrong id');
+                next(err);
+                flag = true;
+            }
+        })
+
+        await checkId;
+        if (flag) {
+            return;
+        }
+
+
         todoModel.findByIdAndUpdate(req.params.todoId, req.body, { new: true })
             .then(todo => {
                 if (!todo) {
@@ -108,7 +128,25 @@ module.exports = {
     },
 
     // delete a todo item with specific todoId
-    delete: (req, res) => {
+    delete: async (req, res, next) => {
+        var flag = false;
+        const checkId = todoModel.findById(req.params.todoId, async (err, todo) => {
+            if (err) {
+                next(err);
+                flag = true;
+            }
+            if (todo.ownerId != req.body.userId) {
+                console.log('wrong id');
+                next(err);
+                flag = true;
+            }
+        })
+
+        await checkId;
+        if (flag) {
+            return;
+        }
+
         todoModel.findByIdAndRemove(req.params.todoId)
             .then(todo => {
                 if (!todo) {

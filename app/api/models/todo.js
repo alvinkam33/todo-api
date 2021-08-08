@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const todoSchema = mongoose.Schema({
+    ownerId: String, // userId of creator of todo item
     task: String,
     category: String,
     description: String,
