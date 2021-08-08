@@ -22,18 +22,6 @@ module.exports = {
                 res.json({status: "sucess", message: "todo item added successfully", data: null});
             }
         })
-
-        // save new item in db
-        /*
-        todo.save()
-            .then(data => {
-                res.send(data);
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "an error occured while creating the todo item"
-                });
-            });
-        */
     },
 
     // retrieve all todo items
@@ -73,16 +61,6 @@ module.exports = {
                 res.send(results);
             }
         });
-        /*
-        todoModel.find()
-            .then(todo => {
-                res.send(todo);
-            }).catch(err => {
-                res.state(500).send({
-                    message: err.message || "an error occured while retrieving all todo items"
-                });
-            });
-        */
     },
 
     // retrieve single todo item with specific todoId
