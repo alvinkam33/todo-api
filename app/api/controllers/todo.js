@@ -37,7 +37,43 @@ module.exports = {
     },
 
     // retrieve all todo items
-    getAll: (req, res) => {
+    getAll: (req, res, next) => {
+        const category = req.query.category;
+        const completion = req.query.completion;
+
+        let results = [];
+        todoModel.find({}, (err, todos) => {
+            if (err) {
+                next(err);
+            } else {
+                for (let todo of todos) {
+                    if (!category && !completion) {
+                        results.push(todo);
+                        continue;
+                    }
+
+                    if (category && !completion) {
+                        if (category === todo.category) {
+                            results.push(todo);
+                            continue;
+                        }
+                    }
+
+                    if (!category && completion) {
+                        if (completion === todo.completion.toString()) {
+                            results.push(todo);
+                            continue;
+                        }
+                    }
+
+                    if (category === todo.category && completion === todo.completion.toString()) {
+                        results.push(todo);
+                    }
+                }
+                res.send(results);
+            }
+        });
+        /*
         todoModel.find()
             .then(todo => {
                 res.send(todo);
@@ -46,6 +82,7 @@ module.exports = {
                     message: err.message || "an error occured while retrieving all todo items"
                 });
             });
+        */
     },
 
     // retrieve single todo item with specific todoId
@@ -71,7 +108,7 @@ module.exports = {
     },
 
     // update a todo item with specific todoId
-    update: (req, res) => {
+    update: (req, res, next) => {
         todoModel.findByIdAndUpdate(req.params.todoId, req.body, { new: true })
             .then(todo => {
                 if (!todo) {
