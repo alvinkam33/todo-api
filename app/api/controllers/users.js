@@ -7,7 +7,7 @@ module.exports = {
         // validation (name, email, password must be filled)
         if (!req.body.name || !req.body.email || !req.body.password) {
             return res.status(400).send({
-                message: "name, email, password must be filled"
+                message: "bad request: name, email, password must be filled"
             });
         }
 
@@ -16,16 +16,20 @@ module.exports = {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password
-        }, (err) => {
+        }, (err, user) => {
             if (err) {
                 next(err);
             }
             else {
-                res.json({ status: "success", message: "user added successfully", data: null });
+                res.json({ 
+                    message: "user added successfully", 
+                    data: user 
+                });
             }
         });
     },
 
+    // authenticate user on login
     authenticate: (req, res, next) => {
         userModel.findOne({
             email: req.body.email
@@ -35,9 +39,16 @@ module.exports = {
             } else {
                 if (bcrypt.compareSync(req.body.password, userInfo.password)) {
                     const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '1h' });
-                    res.json({ status: "success", message: "user found", data: { user: userInfo, token: token } });
+                    res.json({ 
+                        status: "success", 
+                        message: "user found", 
+                        data: { user: userInfo, token: token } 
+                    });
                 } else {
-                    res.json({ status: "error", message: "invalid email/password", data: null });
+                    res.json({ 
+                        status: "error", 
+                        message: "invalid email/password" 
+                    });
                 }
             }
         });
