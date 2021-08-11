@@ -58,7 +58,7 @@ Required URL params: todoId (String)
 
 Optional data params: task (String), category (String), description (String), completed (Boolean)
 
-Updates todo item of specified ID. The API will only update the degree with requested values, otherwise it will stay the same.
+Updates todo item of specified ID. The API will only update the todo item with requested values, otherwise it will stay the same.
 
 ### Delete Todo Item by ID
 
