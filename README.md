@@ -1,6 +1,6 @@
 # todo-api
 
-CRUD API built using Node, MongoDB and Express. As this project only contains the backend, all testing was done through API requests on Postman. User can register by entering email, name and password, then logging in by entering email and password (simple authentication logic done through BCrypt and jsonwebtoken libraries). Once authenticated, use can enter and view all todo items, filter by category and/or 'completed' status, get by ID, update and delete. The user can only update and delete their own items.
+CRUD API built using Node, MongoDB and Express. As this project only contains the backend, all testing was done through API requests on Postman. User can register by entering email, name and password, then logging in by entering email and password (simple authentication logic done through BCrypt and jsonwebtoken libraries). Once authenticated, the user can enter and view all todo items, filter by category and/or 'completed' status, get by ID, update and delete. The user can only update and delete their own items.
 
 # API Routes
 
