@@ -44,7 +44,7 @@ Returns all todo items in the database. If one or both of the above params are s
 
 ### Get Todo Item by ID
 
-`GET /todolist/:todoId
+`GET /todolist/:todoId`
 
 Required URL params: todoId (String)
 
